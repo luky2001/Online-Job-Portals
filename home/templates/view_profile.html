@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% block start %}
+{% load static %}
+
+<style>
+    body {
+        background-color: #f9f9f9;
+    }
+
+    h1.page-heading {
+        text-align: center;
+        color: #1c1c1c;
+        margin: 40px 0 20px;
+        font-size: 36px;
+        font-weight: 800;
+    }
+
+    .recruiter-list-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 40px;
+        padding: 20px;
+    }
+
+    .recruiter-profile-card {
+        position: relative;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        width: 400px;
+        max-width: 90%;
+    }
+
+    .update-btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        padding: 8px 16px;
+        background: #6a11cb;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(106, 17, 203, 0.3);
+        transition: 0.3s;
+    }
+
+    .update-btn:hover {
+        background: #4e0b9d;
+        transform: scale(1.05);
+    }
+
+    .recruiter-logo-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .recruiter-company-logo {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ddd;
+    }
+
+    .recruiter-company-name {
+        color: #111;
+        font-size: 24px;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+
+    .recruiter-location,
+    .recruiter-industry {
+        font-size: 16px;
+        color: #555;
+        margin: 5px 0;
+    }
+
+    .recruiter-location strong,
+    .recruiter-industry strong {
+        color: darkred;
+    }
+
+    .recruiter-description ul {
+        text-align: left;
+        margin-top: 10px;
+        padding-left: 20px;
+        color: #666;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .recruiter-description ul li::marker {
+        color: darkred;
+
+    }
+    .recruiter-company-name {
+        display: inline-block;
+        font-size: 30px;
+        font-weight: 800;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        margin: 20px 0 20px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        letter-spacing: 1px;
+        white-space: nowrap;
+        animation: marqueeText 18s linear infinite;
+    }
+    
+    @keyframes marqueeText {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+    .recruiter-name-wrapper {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        text-align: center;
+    }    
+    
+    
+    .recruiter-company-name:hover {
+        background-position: right center; /* Animate gradient movement */
+        transform: scale(1.05); /* Slight zoom */
+        text-shadow: 2px 2px 5px rgba(106, 17, 203, 0.3);
+        cursor: pointer;
+    }
+    .recruiter-location {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 10px 0 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+    background-size: 200% auto;
+}
+
+.recruiter-location:hover {
+    background-position: right center; /* Animate gradient movement */
+    transform: scale(1.05); /* Slight zoom */
+    text-shadow: 2px 2px 5px rgba(106, 17, 203, 0.3);
+    cursor: pointer;
+}
+.recruiter-industry {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 10px 0 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+    background-size: 200% auto;
+}
+
+.recruiter-industry:hover {
+    background-position: right center; /* Animate gradient movement */
+    transform: scale(1.05); /* Slight zoom */
+    text-shadow: 2px 2px 5px rgba(106, 17, 203, 0.3);
+    cursor: pointer;
+}
+.recruiter-description {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #6a11cb, #2575fc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 10px 0 20px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+    background-size: 200% auto;
+}
+
+.recruiter-description:hover {
+    background-position: right center; /* Animate gradient movement */
+    transform: scale(1.05); /* Slight zoom */
+    text-shadow: 2px 2px 5px rgba(106, 17, 203, 0.3);
+    cursor: pointer;
+}
+
+
+
+    
+</style>
+
+
+
+<div class="recruiter-list-container">
+    
+  
+    <div class="recruiter-profile-card">
+        <a href="{% url 'update_rec_profile' stu.id %}" class="update-btn">✏️ Update</a>
+
+        <div class="recruiter-logo-container">
+            <img src="{{ stu.company_logo.url }}" class="recruiter-company-logo" alt="{{ stu.company_name }} Logo">
+        </div>
+
+        <div class="recruiter-name-wrapper">
+            <h2 class="recruiter-company-name">{{ stu.company_name }}</h2>
+        </div>
+        
+        <p class="recruiter-location"><strong>Location:</strong><span class="location-value"> {{ stu.com_location }}</span></p>
+        <p class="recruiter-industry"><strong>Industry:</strong> {{ stu.com_industry }}</p>
+
+        <div class="recruiter-description">
+            <strong>About Company:</strong>
+            <ul>
+                {% for point in stu.com_description.splitlines %}
+                    {% if point %}
+                        <li>{{ point }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+ 
+</div>
+
+{% endblock %}

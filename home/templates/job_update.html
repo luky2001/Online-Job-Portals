@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+{% block start %}
+{% load static %}
+
+<style>
+    .job-form-container {
+        max-width: 700px;
+        margin: 50px auto;
+        padding: 30px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .job-form-container h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+        font-size: 28px;
+        font-weight: 800;
+    }
+
+    .job-form-group {
+        margin-bottom: 20px;
+    }
+
+    .job-form-group label {
+        display: block;
+        margin-bottom: 6px;
+        color: #444;
+        font-weight: 600;
+    }
+
+    .required-star {
+        color: darkred;
+        margin-left: 3px;
+    }
+
+    .job-form-group input,
+    .job-form-group select,
+    .job-form-group textarea {
+        width: 100%;
+        padding: 10px 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+        background-color: #f9f9f9;
+        transition: border 0.3s ease;
+    }
+
+    .job-form-group input:focus,
+    .job-form-group textarea:focus,
+    .job-form-group select:focus {
+        border-color: #6a11cb;
+        outline: none;
+    }
+
+    .job-form-group textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .submit-btn {
+        width: 100%;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .submit-btn:hover {
+        background-position: right center;
+        transform: scale(1.03);
+    }
+
+    .name {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 800;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 10px 0 10px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        letter-spacing: 1px;
+        transition: all 0.4s ease;
+        background-size: 200% auto;
+    }
+
+    .name:hover {
+        background-position: right center;
+        transform: scale(1.05);
+        text-shadow: 2px 2px 5px rgba(106, 17, 203, 0.3);
+        cursor: pointer;
+    }
+</style>
+
+<div class="job-form-container">
+    <div class="name">
+        <h2>Post Job</h2>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="job-form-group">
+            <label>Job Position<span class="required-star">*</span></label>
+            <input type="text" name="job_position" value="{{ queryset.job_position }}" required>
+        </div>
+
+        <div class="job-form-group">
+            <label>Job Description<span class="required-star">*</span></label>
+            <textarea name="job_description" required>{{ queryset.job_description }}</textarea>
+        </div>
+
+        <div class="job-form-group">
+            <label>Category<span class="required-star">*</span></label>
+            <select name="job_category" required>
+                <option value="">Select</option>
+                <option value="IT" {% if queryset.job_category == "IT" %}selected{% endif %}>IT</option>
+                <option value="Marketing" {% if queryset.job_category == "Marketing" %}selected{% endif %}>Marketing</option>
+                <option value="Finance" {% if queryset.job_category == "Finance" %}selected{% endif %}>Finance</option>
+                <option value="Healthcare" {% if queryset.job_category == "Healthcare" %}selected{% endif %}>Healthcare</option>
+                <option value="Education" {% if queryset.job_category == "Education" %}selected{% endif %}>Education</option>
+                <option value="Other" {% if queryset.job_category == "Other" %}selected{% endif %}>Other</option>
+            </select>
+        </div>
+
+        <div class="job-form-group">
+            <label>Job Location<span class="required-star">*</span></label>
+            <input type="text" name="job_location" value="{{ queryset.job_location }}" required>
+        </div>
+
+        <div class="job-form-group">
+            <label>Salary<span class="required-star">*</span></label>
+            <input type="number" name="job_salary" value="{{ queryset.job_salary }}" required>
+        </div>
+
+        <div class="job-form-group">
+            <label>Experience<span class="required-star">*</span></label>
+            <input type="text" name="job_experience" value="{{ queryset.job_experience }}" required>
+        </div>
+
+        <div class="job-form-group">
+            <label>Qualifications<span class="required-star">*</span></label>
+            <textarea name="qualifications" required>{{ queryset.qualifications }}</textarea>
+        </div>
+
+        <div class="job-form-group">
+            <label>Job Type<span class="required-star">*</span></label>
+            <select name="job_type" required>
+                <option value="">Select</option>
+                <option value="Full-time" {% if queryset.job_type == "Full-time" %}selected{% endif %}>Full-time</option>
+                <option value="Part-time" {% if queryset.job_type == "Part-time" %}selected{% endif %}>Part-time</option>
+                <option value="Contract" {% if queryset.job_type == "Contract" %}selected{% endif %}>Contract</option>
+                <option value="Internship" {% if queryset.job_type == "Internship" %}selected{% endif %}>Internship</option>
+            </select>
+        </div>
+
+        <div class="job-form-group">
+            <label>Application Deadline<span class="required-star">*</span></label>
+            <input type="date" name="deadline" value="{{ queryset.deadline|date:'Y-m-d' }}" required>
+        </div>
+
+        <div class="job-form-group">
+            <label>Status<span class="required-star">*</span></label>
+            <select name="status" required>
+                <option value="Active" {% if queryset.job_status == "Active" %}selected{% endif %}>Active</option>
+                <option value="Closed" {% if queryset.job_status == "Closed" %}selected{% endif %}>Closed</option>
+            </select>
+        </div>
+
+        <button type="submit" class="submit-btn">Post Job</button>
+    </form>
+</div>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block start %}
+{% load static %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+    body {
+        background-color: #f1f4f9;
+    }
+    .update-container {
+        max-width: 500px;
+        margin: 60px auto;
+        background-color: #ffffff;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .form-control {
+        border-radius: 10px;
+    }
+    .btn-update {
+        background-color: #28a745;
+        color: white;
+        border-radius: 10px;
+    }
+    .btn-update:hover {
+        background-color: #218838;
+    }
+    .profile-preview {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="container">
+    <div class="update-container">
+        <h3 class="text-center mb-4">Update Student</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="mb-3 text-center">
+                {% if mohan.stu_image %}
+                    <img src="{{ mohan.stu_image.url }}" alt="Current Image" class="profile-preview">
+                {% else %}
+                    <p>No image uploaded</p>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" name="name" value="{{ mohan.stu_name }}" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Age</label>
+                <input type="number" name="age" value="{{ mohan.stu_age }}" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Branch</label>
+                <input type="text" name="branch" value="{{ mohan.stu_branch }}" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">New Image (optional)</label>
+                <input type="file" name="image" class="form-control">
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-update">Update</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

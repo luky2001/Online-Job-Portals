@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load static %}
+{% block start %}
+
+<style>
+  h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+  }
+
+  .table-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 20px;
+  }
+
+  .table-container {
+    overflow-x: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    width: 100%;
+    max-width: 1300px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1000px;
+  }
+
+  thead {
+    background-color: #2980b9;
+    color: white;
+  }
+
+  th, td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid #e6e6e6;
+    font-size: 14px;
+    vertical-align: top;
+  }
+
+  th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 13px;
+    border-right: 1px solid #ffffff33;
+  }
+
+  td {
+    border-right: 1px solid #f1f1f1;
+  }
+
+  tr:hover {
+    background-color: #f0f8ff;
+  }
+
+  .btn {
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 13px;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+  }
+
+  .btn-update {
+    background-color: #27ae60;
+    color: white;
+  }
+
+  .btn-delete {
+    background-color: #e74c3c;
+    color: white;
+  }
+
+  .btn-update:hover {
+    background-color: #219150;
+  }
+
+  .btn-delete:hover {
+    background-color: #c0392b;
+  }
+
+  .empty-msg {
+    text-align: center;
+    color: #888;
+    font-size: 16px;
+    margin-top: 60px;
+  }
+
+  @media (max-width: 768px) {
+    table {
+      font-size: 12px;
+    }
+
+    th, td {
+      padding: 10px;
+    }
+
+    .btn {
+      padding: 4px 8px;
+    }
+  }
+</style>
+
+<div class="table-section">
+
+  {% if jobs %}
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Position</th>
+          <th>Description</th>
+          <th>Category</th>
+          <th>Location</th>
+          <th>Salary</th>
+          <th>Experience</th>
+          <th>Qualifications</th>
+          <th>Type</th>
+          <th>Posted</th>
+          <th>Deadline</th>
+          <th>Status</th>
+          <th>Update</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for job in jobs %}
+        <tr>
+          <td>{{ job.job_position }}</td>
+          <td>{{ job.job_description|truncatechars:80 }}</td>
+          <td>{{ job.job_category }}</td>
+          <td>{{ job.job_location }}</td>
+          <td>{{ job.job_salary|default:"-" }}</td>
+          <td>{{ job.job_experience|default:"-" }}</td>
+          <td>{{ job.qualifications|default:"-" }}</td>
+          <td>{{ job.job_type }}</td>
+          <td>{{ job.posted_on|date:"Y-m-d" }}</td>
+          <td>{{ job.deadline|default:"N/A" }}</td>
+          <td>{{ job.status }}</td>
+          <td>
+            <a href="{% url 'job_update' job.id %}" class="btn btn-update">Update</a>
+          </td>
+          <td>
+            <a href="{% url 'job_delete' job.id%}" class="btn btn-delete">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p class="empty-msg">You haven't posted any jobs yet.</p>
+  {% endif %}
+</div>
+
+{% endblock %}
