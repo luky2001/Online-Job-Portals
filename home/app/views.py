@@ -186,4 +186,5 @@ def condidate_dashboard(request):
     return render(request,'condidate_dashboard.html')
 def home_dashboard(request):
     return render(request,'home_dashboard.html')
-def show_jobs(request)
+def show_jobs(request):
+    return render
