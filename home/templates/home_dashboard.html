@@ -1,4 +1,4 @@
-{% extends "base_condidate.html" %}
+{% extends "base_dashboard.html" %}
 {% block start %}
 {% load static %}
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -29,23 +29,5 @@
     }
 </style>
 
-<div class="container">
-<div class="form-container">
-    <h3 class="text-center mb-4">Login</h3>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-       
-        <div class="mb-3">
-            <input type="text" name="username" class="form-control" placeholder="Username" required>
-        </div>
-        <div class="mb-3">
-            <input type="password" name="password"class="form-control" placeholder="Password" required>
-        </div>
-      <p> I have don't account! <a href="/condidate_register/">Register</p>
-        <div class="d-grid">
-            <button type="submit" class="btn btn-success">Submit</button>
-        </div>
-    </form>
-   
-</div>
+
 {% endblock %}

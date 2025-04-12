@@ -29,7 +29,7 @@ def register(request):
                  )
         user.set_password(password)
         user.save()
-        return redirect('')
+        return redirect('/dashboard/')
     return render(request,'register.html')
 def login_page(request):
     if request.method=="POST":
@@ -45,7 +45,7 @@ def login_page(request):
         else:
             login(request,user)
             messages.success(request,'Logged In Successfully')
-            return redirect('/')
+            return redirect('/dashboard/')
     return render(request,'login.html')
 def logout_page(request):
     logout(request)
@@ -73,8 +73,6 @@ def view_profile(request):
     queryset=Recruiter.objects.filter(user=request.user).first()
     if not queryset:
         return redirect('/rec_profile/')
-    #suru=Recruiter.objects.filter(com_discription=com_discription)
-    print(queryset.com_description)
     return render(request,'view_profile.html',{'stu':queryset})
 def update_rec_profile(request, id):
     queryset = get_object_or_404(Recruiter, id=id)
@@ -143,13 +141,10 @@ def job_update(request,id):
         return redirect('/show/')
     print(queryset.job_position)
     return render(request,'job_update.html',{'queryset':queryset,'stu':recruiter})
-
 def job_delete(request,id):
     queryset=get_object_or_404(Job,id=id)
     queryset.delete()
     return redirect('/show/')
-def condidate_dashboard(request):
-    pass
 def condidate_register(request):
     if request.method=="POST":
         first_name=request.POST.get('first_name')
@@ -167,12 +162,12 @@ def condidate_register(request):
         )
         user.set_password(password)
         user.save()
-        return redirect('/condidate_dashboard/')
+        return redirect('/home_dashboard/')
     return render(request,'condidate_register.html')
 def condidate_login(request):
     if request.method=="POST":
         username=request.POST.get('username')
-        password=request.POST>get('password')
+        password=request.POST.get('password')
         if not User.objects.filter(username=username).exists():
             messages.error(request,'Invalid Condidate')
             return redirect('/condidate_register/')
@@ -183,8 +178,11 @@ def condidate_login(request):
         else:
             login(request,user)
             return redirect('/condidate_dashboard/')
-
+    return render(request,'condidate_login.html')
 def condidate_logout(request):
     logout(request)
     return redirect('/home_dashboard/')
-    
+def condidate_dashboard(request):
+    return render(request,'condidate_dashboard.html')
+def home_dashboard(request):
+    return render(request,'home_dashboard.html')

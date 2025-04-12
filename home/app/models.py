@@ -30,7 +30,7 @@ class Job(models.Model):
         ('Other', 'Other'),
     ])
     job_location = models.CharField(max_length=255)
-    job_salary = models.IntegerField(max_length=50, blank=True, null=True)
+    job_salary = models.IntegerField(blank=True, null=True)
     job_experience = models.CharField(max_length=50, blank=True, null=True)
     qualifications = models.TextField(blank=True, null=True)
     job_type = models.CharField(max_length=50, choices=[
