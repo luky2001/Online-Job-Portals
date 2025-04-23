@@ -18,6 +18,8 @@ urlpatterns = [
     path('condidate_dashboard/',views.condidate_dashboard,name='condidate_dashboard'),
     path('condidate_logout/',views.condidate_logout,name='condidate_logout'),
     path('',views.home_dashboard,name='home_dashboard'),
-
+    path('condidate_profile/',views.condidate_profile,name="condidate_profile"),
+    path('show_candidate_profile/',views.show_candidate_profile,name="show_candidate_profile"),
+    path('candidate_update_profile/<int:id>/',views.candidate_update_profile,name="candidate_update_profile"),
   
 ]

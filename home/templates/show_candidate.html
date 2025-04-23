@@ -1,0 +1,170 @@
+{% extends "condidate_dashboard.html" %}
+{% block start %}
+{% load static %}
+
+<style>
+    
+
+    h1.page-heading {
+        text-align: center;
+        color: #1c1c1c;
+        margin: 40px 0 20px;
+        font-size: 36px;
+        font-weight: 800;
+    }
+
+    .recruiter-list-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 40px;
+        padding: 20px;
+    }
+
+    .recruiter-profile-card {
+        position: relative;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        width: 400px;
+        max-width: 90%;
+    }
+
+    .update-btn {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        padding: 8px 16px;
+        background: #6a11cb;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(106, 17, 203, 0.3);
+        transition: 0.3s;
+    }
+
+    .update-btn:hover {
+        background: #4e0b9d;
+        transform: scale(1.05);
+    }
+
+    .recruiter-logo-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .recruiter-company-logo {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #ddd;
+    }
+
+    .recruiter-company-name {
+        display: inline-block;
+        font-size: 30px;
+        font-weight: 800;
+        background: linear-gradient(90deg, #6a11cb, #2575fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        margin: 20px 0 20px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        letter-spacing: 1px;
+        white-space: nowrap;
+        animation: marqueeText 18s linear infinite;
+    }
+
+    @keyframes marqueeText {
+        0% {
+            transform: translateX(100%);
+        }
+        100% {
+            transform: translateX(-100%);
+        }
+    }
+
+    .recruiter-name-wrapper {
+        width: 100%;
+        overflow: hidden;
+        position: relative;
+        text-align: center;
+    }
+
+    .recruiter-company-name:hover {
+        background-position: right center;
+        transform: scale(1.05);
+        text-shadow: 2px 2px 5px rgba(106, 17, 203, 0.3);
+        cursor: pointer;
+    }
+
+    /* New left-aligned info styles */
+    .recruiter-info-box {
+        text-align: left;
+        color: #444;
+        background-color: #f3f3f3;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 15px;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    .recruiter-info-box strong {
+        color: #6a11cb;
+    }
+
+    .recruiter-info-box span {
+        color: #666;
+    }
+
+    .recruiter-skills ul {
+        margin-top: 10px;
+        padding-left: 20px;
+    }
+
+    .recruiter-skills li {
+        color: #555;
+        margin-bottom: 5px;
+        list-style-type: square;
+    }
+</style>
+
+<div class="recruiter-list-container">
+    <div class="recruiter-profile-card">
+        <a href=" {% url 'candidate_update_profile' mira.id %}" class="update-btn"> Update</a>
+
+        <div class="recruiter-logo-container">
+            <img src="{{ mira.profile_picture.url }}" class="recruiter-company-logo" alt="Profile Image">
+        </div>
+
+        <div class="recruiter-name-wrapper">
+            <h2 class="recruiter-company-name">{{ user.first_name }} {{ user.last_name }}</h2>
+        </div>
+
+        <!-- Left-aligned info box -->
+        <div class="recruiter-info-box">
+            <p class="recruiter-location"><strong> Location:-</strong> <span>{{ mira.location }}</span></p>
+            <p class="recruiter-bio"><strong> Bio:-</strong> <span>{{ mira.bio }}</span></p>
+
+            <div class="recruiter-skills">
+                <strong>Skills:-</strong>
+                <ul>
+                    {% for point in mira.skills.splitlines %}
+                        {% if point %}
+                            <li>{{ point }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

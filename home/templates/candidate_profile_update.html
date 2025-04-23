@@ -1,0 +1,99 @@
+{% extends "condidate_dashboard.html" %}
+{% load static %}
+{% block start %}
+<style>
+    .form-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+        margin-top: 200px;
+    }
+
+    .form-container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        width: 400px;
+        max-width: 100%;
+        text-align: center;
+    
+    }
+
+    .form-container h2 {
+        margin-bottom: 20px;
+        font-size: 22px;
+        color:#4e0b9d;
+    }
+
+    .form-container label {
+        font-weight: 600;
+        display: block;
+        margin: 10px 0 5px;
+        text-align: left;
+        font-size: 14px;
+        color: #444;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 12px;
+        border: 2px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+        transition: 0.3s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+        border-color: #6a11cb;
+        outline: none;
+        box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+    }
+
+    .submit-btn {
+        width: 100%;
+        padding: 12px;
+        background: #6a11cb;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .submit-btn:hover {
+        background: #4e0b9d;
+    }
+</style>
+
+<div class="form-wrapper">
+    <div class="form-container">
+        <h2>Candidate Profile Update</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <label for="profile_image">Profile Image:</label>
+            <input type="file" id="profile_image" value="{{condidate.profile_picture}}"name="profile_image" accept="image/*">
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" value="{{candidate.location}}" placeholder="Enter your location">
+
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="bio" rows="4" placeholder="Tell us about yourself..." >{{candidate.bio}}</textarea>
+
+            <label for="skills">Skills:</label>
+            <textarea id="skills" name="skills" rows="4"  placeholder="List your skills..." >{{candidate.skills}}</textarea>
+
+            <label for="resume">Resume (PDF or DOC):</label>
+            <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx">
+
+            <button type="submit" class="submit-btn">Update Profile</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
