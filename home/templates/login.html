@@ -34,7 +34,14 @@
     <h3 class="text-center mb-4">Login</h3>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-       
+        {%if messages %}
+        <div class=" text-center alert alert-primary" role="alert">
+            {%for message in messages%}
+            {{message}}
+        
+        {%endfor%}
+        </div>
+        {%endif%}
         <div class="mb-3">
             <input type="text" name="username" class="form-control" placeholder="Username" required>
         </div>

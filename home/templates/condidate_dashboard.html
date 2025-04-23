@@ -87,7 +87,7 @@
     <!-- Bootstrap Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="/show/">
+            <a class="navbar-brand" href="/condidate_dashboard/">
                 <img src="{% static 'image/1.png' %}" alt="JobPortal Logo" class="rounded-circle" width="50" height="50">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -98,7 +98,7 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                        
-                        <a href="#" class="nav-link" ><h5>Home</h5></a>
+                        <a href="/condidate_dashboard/" class="nav-link" ><h5>Home</h5></a>
                    
                     </li>
                     <li class="nav-item">
@@ -112,23 +112,22 @@
                     </li>
                 </ul>
                 <div class="profile-container" onclick="toggleDropdown()">
-                    {% if request.user.is_authenticated  and stu.company_logo %}
-
-                    <img src="{{ stu.company_logo.url }} " alt="Profile" class="profile-icon">
-                    <ul class="profile-dropdown" id="profileDropdown">
-                        <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
-                        <a class="dropdown-item" href="/logout_page/">Logout</a>
-                    </ul>
-                    {% elif request.user.is_authenticated %}
-                    <img src="{% static 'image/1.png' %} " alt="Profile" class="profile-icon">
-                    <ul class="profile-dropdown" id="profileDropdown">
-                        <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
-                        <a class="dropdown-item" href="/logout_page/">Logout</a>
-                    </ul>
-                    {% else %}
-                    <a href="/login_page/" class="btn btn-light btn-custom">Login</a>
-                    {% endif %}
-                </div>
+                        {% if request.user.is_authenticated %}
+                            {% if tilu.profile_picture %}
+                                <img src="{{ tilu.profile_picture.url }}" alt="Profile" class="profile-icon">
+                            {% elif mira.profile_picture %}
+                                <img src="{{mira.profile_picture.url}}" alt="Profile" class="profile-icon">
+                            {%else%}
+                            <img src="{% static 'image/1.png' %}" alt="Profile" class="profile-icon">
+                                {% endif %}
+                            <ul class="profile-dropdown" id="profileDropdown">
+                                <a class="dropdown-item" href="{% url 'condidate_profile' %}">Profile</a>
+                                <a class="dropdown-item" href="/condidate_logout/">Logout</a>
+                            </ul>
+                        {% else %}
+                            <a href="/login_page/" class="btn btn-light btn-custom">Login</a>
+                        {% endif %}
+                    </div>
             </div>
         </div>
     </nav>

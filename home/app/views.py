@@ -42,10 +42,12 @@ def login_page(request):
         if user is None:
             messages.error(request,'Invalid User')
             return redirect('/login_page/')
-        else:
-            login(request,user)
-            messages.success(request,'Logged In Successfully')
-            return redirect('/dashboard/')
+        if not Recruiter.objects.filter(user=user).exists():
+            messages.error(request, 'Condidate cannot login in Recruiter form.')
+            return redirect('/login_page/')
+        login(request,user)
+        messages.success(request,'Logged In Successfully')
+        return redirect('/dashboard/')
     return render(request,'login.html')
 def logout_page(request):
     logout(request)
@@ -162,29 +164,74 @@ def condidate_register(request):
         )
         user.set_password(password)
         user.save()
-        return redirect('/home_dashboard/')
+        return redirect('/candidate_dashboard/')
     return render(request,'condidate_register.html')
 def condidate_login(request):
     if request.method=="POST":
         username=request.POST.get('username')
         password=request.POST.get('password')
-        if not User.objects.filter(username=username).exists():
-            messages.error(request,'Invalid Condidate')
-            return redirect('/condidate_register/')
         user=authenticate(username=username,password=password)
         if user is None:
             messages.error(request,'Invalid Condidate')
             return redirect('/condidate_login/')
-        else:
-            login(request,user)
-            return redirect('/condidate_dashboard/')
+        if Recruiter.objects.filter(user=user).exists():
+            messages.error(request, 'Recruiter cannot login in Candidate form.')
+            return redirect('/condidate_login/')
+        login(request,user)
+        return redirect('/condidate_dashboard/')
     return render(request,'condidate_login.html')
 def condidate_logout(request):
     logout(request)
-    return redirect('/home_dashboard/')
+    return redirect('/')
 def condidate_dashboard(request):
-    return render(request,'condidate_dashboard.html')
+    if request.user.is_authenticated:
+        queryset=Candidate.objects.filter(user=request.user).first()
+    job=Job.objects.all()
+    return render(request,'candidate.html',{'job':job,'tilu':queryset})
 def home_dashboard(request):
-    return render(request,'home_dashboard.html')
-def show_jobs(request):
-    return render
+    job=Job.objects.all()
+    pihu=Recruiter.objects.all()
+    return render(request,'home_dashboard.html',{'job':job,'pihu':pihu})
+def condidate_profile(request):
+    candidate=Candidate.objects.filter(user=request.user).first()
+    if candidate:
+        return redirect('/show_candidate_profile/')
+    if request.method=="POST":
+        data=request.POST
+        profile_image=request.FILES.get('profile_image')
+        location=data.get('location')
+        bio=data.get('bio')
+        resume=request.FILES.get('resume')
+        skills=data.get('skills')
+        Candidate.objects.create(
+            user=request.user,
+            profile_picture=profile_image,
+            location=location,
+            bio=bio,
+            skills=skills,
+            resume=resume
+        )
+        return redirect('/show_candidate_profile/')
+    return render(request,'condidate_profile.html')
+
+def show_candidate_profile(request):
+    queryset=Candidate.objects.filter(user=request.user).first()
+    if not queryset:
+        return redirect('/candidate_profile/')
+    return render(request,"show_candidate.html",{'mira':queryset})
+def candidate_update_profile(request,id):
+    queryset = get_object_or_404(Candidate, id=id)
+    if request.method == "POST":
+        data = request.POST  
+        resume = request.FILES.get('resume')
+        profile_picture = request.FILES.get('profile_image')
+        queryset.bio = data.get('bio', queryset.bio)
+        queryset.location = data.get('location', queryset.location)
+        queryset.skills = data.get('skills', queryset.skills)
+        if resume:
+            queryset.resume = resume
+        if profile_picture:
+            queryset.profile_picture = profile_picture
+        queryset.save()
+        return redirect("/show_candidate_profile/")
+    return render(request, 'candidate_profile_update.html', {'candidate': queryset})
