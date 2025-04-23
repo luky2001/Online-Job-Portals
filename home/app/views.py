@@ -235,4 +235,4 @@ def candidate_update_profile(request,id):
         queryset.save()
         return redirect("/show_candidate_profile/")
     return render(request, 'candidate_profile_update.html', {'candidate': queryset})
-def
+def application
