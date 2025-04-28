@@ -242,4 +242,5 @@ def candidate_update_profile(request,id):
     return render(request, 'candidate_profile_update.html', {'candidate': queryset})
 def application(request):
     return render(request,'application.html')
-def search_job(request,id)
+def search_job(request,id):
+    return render(request)
