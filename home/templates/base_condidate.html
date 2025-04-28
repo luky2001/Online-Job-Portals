@@ -87,7 +87,7 @@
     <!-- Bootstrap Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="/show/">
+            <a class="navbar-brand" href="{% if request.user.is_authenticated and request.user.candidate %}/condidate_dashboard/{% else %}/{% endif %}">
                 <img src="{% static 'image/1.png' %}" alt="JobPortal Logo" class="rounded-circle" width="50" height="50">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -98,7 +98,7 @@
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
                        
-                        <a href="#" class="nav-link" ><h5>Home</h5></a>
+                        <a href="{% if request.user.is_authenticated and request.user.candidate %}/condidate_dashboard/{% else %}/{% endif %}" class="nav-link" ><h5>Home</h5></a>
                    
                     </li>
                     <li class="nav-item">

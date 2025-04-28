@@ -101,7 +101,58 @@
         font-weight: 400;
     }
     
+        /* Search Section Styling */
+        .full-search-bar {
+            width: 100%;
+            background-color: #ffffff; /* Soft clean white */
+            padding: 30px 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Very light shadow for soft container feel */
+        }
+        
+        .full-search-form {
+            display: flex;
+            max-width: 800px;
+            margin: 0 auto;
+            gap: 10px; /* This adds distance between input and button */
+        }
+        
+        .full-search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: 1px solid #ccc;
+            border-radius: 50px; /* Full rounded */
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .full-search-btn {
+            padding: 15px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50px; /* Fully rounded */
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .full-search-btn:hover {
+            background-color: #0056b3;
+        }
+        
+      
+        
+    
 </style>
+<!-- Search Section -->
+<!-- Full Screen Width Search Section -->
+<div class="full-search-bar">
+    <form method="get" action="#" class="full-search-form">
+        <input type="text" name="q" placeholder="Job title , keyword or company" class="full-search-input">
+        <button type="submit" class="full-search-btn">Search</button>
+    </form>
+</div>
+
 
 <div class="split-container">
     <!-- Left Panel - Job List -->
@@ -115,6 +166,8 @@
         <li><strong>Qualification:</strong> {{ job_item.qualifications }}</li>
         <li><strong>Experience:</strong> {{ job_item.job_experience }}</li>
         <li><strong>Salary:</strong> ₹{{ job_item.job_salary }}</li>
+        <li><strong>Status:</strong> {{ job_item.status }}</li>
+        <li><strong>Job Post:</strong> {{ job_item.deadline|date:"d-m-y" }}</li>
     </ul>
                 </div>
             {% empty %}
@@ -133,6 +186,8 @@
                     <p><strong>Type:</strong> {{ first_job.job_type }}</p>
                     <p><strong>Salary:</strong> ₹{{ first_job.job_salary }}</p>
                     <p><strong>Qualifications:</strong> {{ first_job.qualifications }}</p>
+                    <p><strong>Status:</strong> {{ first_job.status }}</p>
+                    <p><strong>Job Post:</strong> {{ first_job.deadline|date:"d-m-y" }}</p>
                     <hr>
                     <p>{{ first_job.job_description }}</p>
                     <a class="btn-apply"  href="#">Apply Now</a>
@@ -155,6 +210,8 @@
                 experience: `{{ job_item.job_experience|escapejs }}`,
                 qualifications: `{{ job_item.qualifications|escapejs }}`,
                 description: `{{ job_item.job_description|linebreaksbr|escapejs }}`,
+                status: `{{ job_item.status|escapejs }}`,
+                deadline: `{{ job_item.deadline|date:"Y-m-d" }}`
               
             },
         {% endfor %}
@@ -177,6 +234,8 @@
             <p><strong>Qualifications:</strong> ${job.qualifications}</p>
             <hr>
             <p>${job.description}</p>
+            <p><strong>Status:</strong> ${job.status}</p>
+            <p><strong>Deadline:</strong> ${job.deadline}</p>
             <a class="btn-apply" href="#">Apply Now</a>
         `;
     }

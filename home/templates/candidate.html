@@ -3,8 +3,6 @@
 {% load static %}
 
 <style>
-   
-
     .split-container {
         display: flex;
         padding: 40px 5%;
@@ -69,9 +67,7 @@
     }
 
     .btn-apply {
-        display: flex;
-        justify-content: center;  /* Center text horizontally */
-        align-items: center;      /* Center text vertically */
+        display: inline-block;
         background: #0077cc;
         color: white;
         padding: 10px 20px;
@@ -80,13 +76,12 @@
         margin-top: 20px;
         text-decoration: none;
         transition: background 0.3s ease;
-        min-height: 40px; /* Optional: Ensures consistent height */
     }
-    
 
     .btn-apply:hover {
         background: #005fa3;
     }
+
     .job-details-list {
         list-style-type: disc;
         padding-left: 20px;
@@ -94,14 +89,23 @@
         font-size: 0.9rem;
         margin-top: 10px;
     }
-    
+
     .job-details-list li {
         margin-bottom: 6px;
         color: #333;
         font-weight: 400;
     }
-    
 </style>
+<!-- Search Section -->
+<div class="container mt-4">
+    <form method="get" action="#">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Search jobs by title, location, description..." name="q">
+            <button class="btn btn-primary" type="submit">Search</button>
+        </div>
+    </form>
+</div>
+
 
 <div class="split-container">
     <!-- Left Panel - Job List -->
@@ -109,13 +113,15 @@
         <div class="job-list-wrapper">
             {% for job_item in job %}
                 <div class="job-card {% if forloop.first %}active{% endif %}" id="job-{{ job_item.id }}" onclick="showJobDetails({{ job_item.id }})">
-                    <h3 class="job-title">{{ jobs.job_position }}</h3>
-                    <p class="job-meta"> {{ job_item.recruiter.company_name }} | {{ job_item.job_location }} </p>
-    <ul class="job-details-list">
-        <li><strong>Qualification:</strong> {{ job_item.qualifications }}</li>
-        <li><strong>Experience:</strong> {{ job_item.job_experience }}</li>
-        <li><strong>Salary:</strong> ₹{{ job_item.job_salary }}</li>
-    </ul>
+                    <h3 class="job-title">{{ job_item.job_position }}</h3>
+                    <p class="job-meta">{{ job_item.recruiter.company_name }} | {{ job_item.job_location }}</p>
+                    <ul class="job-details-list">
+                        <li><strong>Qualification:</strong> {{ job_item.qualifications }}</li>
+                        <li><strong>Experience:</strong> {{ job_item.job_experience }}</li>
+                        <li><strong>Salary:</strong> ₹{{ job_item.job_salary }}</li>
+                        <li><strong>Status:</strong> {{ job_item.status }}</li>
+                        <li><strong>Deadline:</strong> {{ job_item.deadline|date:"Y-m-d" }}</li>
+                    </ul>
                 </div>
             {% empty %}
                 <p>No jobs available at the moment.</p>
@@ -132,10 +138,14 @@
                     <p><strong>Location:</strong> {{ first_job.job_location }}</p>
                     <p><strong>Type:</strong> {{ first_job.job_type }}</p>
                     <p><strong>Salary:</strong> ₹{{ first_job.job_salary }}</p>
+                    <p><strong>Experience:</strong> {{ first_job.job_experience }}</p>
                     <p><strong>Qualifications:</strong> {{ first_job.qualifications }}</p>
+                    <p><strong>Status:</strong> {{ first_job.status }}</p>
+                    <p><strong>Deadline:</strong> {{ first_job.deadline|date:"Y-m-d" }}</p>
+                    
                     <hr>
                     <p>{{ first_job.job_description }}</p>
-                    <a class="btn-apply"  href="#">Apply Now</a>
+                    <a class="btn-apply" href="#">Apply Now</a>
                 {% else %}
                     <p>No job selected.</p>
                 {% endif %}
@@ -155,17 +165,16 @@
                 experience: `{{ job_item.job_experience|escapejs }}`,
                 qualifications: `{{ job_item.qualifications|escapejs }}`,
                 description: `{{ job_item.job_description|linebreaksbr|escapejs }}`,
-              
+                status: `{{ job_item.status|escapejs }}`,
+                deadline: `{{ job_item.deadline|date:"Y-m-d" }}`
             },
         {% endfor %}
     };
 
     function showJobDetails(id) {
-        // Remove active state from previous cards
         document.querySelectorAll('.job-card').forEach(el => el.classList.remove('active'));
         document.getElementById('job-' + id).classList.add('active');
 
-        // Inject new job info
         const job = jobs[id];
         const detailDiv = document.getElementById('job-details');
         detailDiv.innerHTML = `
@@ -175,6 +184,9 @@
             <p><strong>Salary:</strong> ${job.salary}</p>
             <p><strong>Experience:</strong> ${job.experience}</p>
             <p><strong>Qualifications:</strong> ${job.qualifications}</p>
+            <p><strong>Status:</strong> ${job.status}</p>
+            <p><strong>Deadline:</strong> ${job.deadline}</p>
+            
             <hr>
             <p>${job.description}</p>
             <a class="btn-apply" href="#">Apply Now</a>
