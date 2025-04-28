@@ -47,7 +47,7 @@ def login_page(request):
             return redirect('/login_page/')
         login(request,user)
         messages.success(request,'Logged In Successfully')
-        return redirect('/dashboard/')
+        return redirect('/show/')
     return render(request,'login.html')
 def logout_page(request):
     logout(request)
@@ -117,6 +117,8 @@ def job(request):
             deadline=deadline if deadline else None,
             status=status
         )
+        print(deadline)
+        print(status)
         return redirect('/show/')
     return render(request,'job.html',{'stu':recruiter})
 @login_required(login_url='/login_page/')
@@ -183,15 +185,18 @@ def condidate_login(request):
 def condidate_logout(request):
     logout(request)
     return redirect('/')
+@login_required(login_url='/condidate_login/')
 def condidate_dashboard(request):
     if request.user.is_authenticated:
         queryset=Candidate.objects.filter(user=request.user).first()
     job=Job.objects.all()
     return render(request,'candidate.html',{'job':job,'tilu':queryset})
+
 def home_dashboard(request):
     job=Job.objects.all()
     pihu=Recruiter.objects.all()
     return render(request,'home_dashboard.html',{'job':job,'pihu':pihu})
+@login_required(login_url='/condidate_login/')
 def condidate_profile(request):
     candidate=Candidate.objects.filter(user=request.user).first()
     if candidate:
@@ -213,7 +218,7 @@ def condidate_profile(request):
         )
         return redirect('/show_candidate_profile/')
     return render(request,'condidate_profile.html')
-
+@login_required(login_url='/condidate_login/')
 def show_candidate_profile(request):
     queryset=Candidate.objects.filter(user=request.user).first()
     if not queryset:
