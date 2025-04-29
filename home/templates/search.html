@@ -1,0 +1,25 @@
+{% extends 'base_dashboard.html' %}
+
+{% block start %}
+{%load static%}
+<div class="container mt-5">
+    <h2>Search Results for "{{ query }}"</h2>
+    <div class="row">
+        {% if job %}
+            {% for job in job %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ job.job_position}}</h5>
+                            <p class="card-text">{{ job.job_description|truncatewords:20 }}</p>
+                            <a href="#" class="btn btn-primary">View Job</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No jobs found matching your search.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
