@@ -147,13 +147,13 @@
 <!-- Search Section -->
 <!-- Full Screen Width Search Section -->
 <div class="full-search-bar">
-    <form method="get" action="#" class="full-search-form">
-        <input type="text" name="q" placeholder="Job title , keyword or company" class="full-search-input">
+    <form method="get"  class="full-search-form">
+        <input type="text" name="search" placeholder="Job title , keyword or company" class="full-search-input">
         <button type="submit" class="full-search-btn">Search</button>
     </form>
 </div>
 
-
+{{query}}
 <div class="split-container">
     <!-- Left Panel - Job List -->
     <div class="left-panel">
@@ -229,7 +229,7 @@
             <h2>${job.title}</h2>
             <p><strong>Location:</strong> ${job.location}</p>
             <p><strong>Type:</strong> ${job.type}</p>
-            <p><strong>Salary:</strong> ${job.salary}</p>
+            <p><strong>Salary:</strong> ${job.salary}</p> 
             <p><strong>Experience:</strong> ${job.experience}</p>
             <p><strong>Qualifications:</strong> ${job.qualifications}</p>
             <hr>

@@ -5,6 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from .models import *
+from django.db.models import Q
 
 def dashboard(request):
     if request.user.is_authenticated:
@@ -194,6 +195,12 @@ def condidate_dashboard(request):
 
 def home_dashboard(request):
     job=Job.objects.all()
+    query = request.GET.get('search')
+    if query:
+        job = job.filter(
+            Q(job_position__icontains=query) |
+            Q(job_location__icontains=query)
+        )
     pihu=Recruiter.objects.all()
     return render(request,'home_dashboard.html',{'job':job,'pihu':pihu})
 @login_required(login_url='/condidate_login/')
@@ -242,5 +249,3 @@ def candidate_update_profile(request,id):
     return render(request, 'candidate_profile_update.html', {'candidate': queryset})
 def application(request):
     return render(request,'application.html')
-def search_job(request,id):
-    return render(request)
