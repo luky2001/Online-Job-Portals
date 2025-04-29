@@ -248,5 +248,5 @@ def candidate_update_profile(request,id):
         return redirect("/show_candidate_profile/")
     return render(request, 'candidate_profile_update.html', {'candidate': queryset})
 def application(request):
-    job=
+    job=job.filter
     return render(request,'application.html')
