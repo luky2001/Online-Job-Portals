@@ -21,5 +21,5 @@ urlpatterns = [
     path('condidate_profile/',views.condidate_profile,name="condidate_profile"),
     path('show_candidate_profile/',views.show_candidate_profile,name="show_candidate_profile"),
     path('candidate_update_profile/<int:id>/',views.candidate_update_profile,name="candidate_update_profile"),
-   
+    path('application/<int:id>/',views.application,name="application"),
 ]
