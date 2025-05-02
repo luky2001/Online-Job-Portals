@@ -262,4 +262,5 @@ def candidate_update_profile(request,id):
     return render(request, 'candidate_profile_update.html', {'candidate': queryset})
 def application(request,id):
     job=get_object_or_404(Job,id=id)
+    candidate=Candidate.objects.get(user=request.user)
     return render(request,'application.html')
