@@ -1,0 +1,85 @@
+{% extends "condidate_dashboard.html" %}
+{% load static %}
+{% block start %}
+<style>
+
+
+    .application-form {
+        background: #fff;
+        padding: 30px;
+        margin:auto;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        width: 400px;
+    }
+
+    .application-form h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #333;
+    }
+
+    .application-form label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #444;
+    }
+
+    .application-form input[type="text"],
+    .application-form input[type="file"],
+    .application-form textarea,
+    .application-form select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+    }
+
+    .application-form textarea {
+        resize: vertical;
+        height: 100px;
+    }
+
+    .application-form button {
+        background: #007bff;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        width: 100%;
+        transition: background 0.3s ease;
+    }
+
+    .application-form button:hover {
+        background: #0056b3;
+    }
+</style>
+
+<form class="application-form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h2>Apply for Job</h2>
+
+    <label for="name">Full Name</label>
+    <input type="text" id="name" name="name" required>
+
+    <label for="location">Location</label>
+    <input type="text" id="location" name="location" required>
+
+    <label for="qualification">Qualification</label>
+    <input type="text" id="qualification" name="qualification" required>
+
+    <label for="resume">Upload Resume (PDF/DOC)</label>
+    <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+
+    <label for="cover_letter">Cover Letter</label>
+    <textarea id="cover_letter" name="cover_letter" placeholder="Write your cover letter..." required></textarea>
+
+    <button type="submit">Submit Application</button>
+</form>
+
+{% endblock %}

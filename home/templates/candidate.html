@@ -95,17 +95,52 @@
         color: #333;
         font-weight: 400;
     }
+    .full-search-bar {
+        width: 100%;
+        background-color: #ffffff; /* Soft clean white */
+        padding: 30px 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Very light shadow for soft container feel */
+    }
+    
+    .full-search-form {
+        display: flex;
+        max-width: 800px;
+        margin: 0 auto;
+        gap: 10px; /* This adds distance between input and button */
+    }
+    
+    .full-search-input {
+        flex: 1;
+        padding: 15px 20px;
+        border: 1px solid #ccc;
+        border-radius: 50px; /* Full rounded */
+        font-size: 16px;
+        outline: none;
+    }
+    
+    .full-search-btn {
+        padding: 15px 25px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 50px; /* Fully rounded */
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .full-search-btn:hover {
+        background-color: #0056b3;
+    }
+    
 </style>
 <!-- Search Section -->
-<div class="container mt-4">
-    <form method="get" action="#">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search jobs by title, location, description..." name="q">
-            <button class="btn btn-primary" type="submit">Search</button>
-        </div>
+<div class="full-search-bar">
+    <form method="get"  class="full-search-form">
+        <input type="text" name="search" placeholder="Job title , keyword or company" class="full-search-input">
+        <button type="submit" class="full-search-btn">Search</button>
     </form>
 </div>
-
 
 <div class="split-container">
     <!-- Left Panel - Job List -->
