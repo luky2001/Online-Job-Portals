@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from .models import *
 from django.db.models import Q
-
+@login_required(login_url='/login_page/')
 def dashboard(request):
     if request.user.is_authenticated:
         recruiter = Recruiter.objects.filter(user=request.user).first()
@@ -30,6 +30,7 @@ def register(request):
                  )
         user.set_password(password)
         user.save()
+        login(request, user)
         return redirect('/dashboard/')
     return render(request,'register.html')
 def login_page(request):
@@ -122,7 +123,6 @@ def job(request):
         print(status)
         return redirect('/show/')
     return render(request,'job.html',{'stu':recruiter})
-@login_required(login_url='/login_page/')
 def show(request):
     recruiter = request.user.recruiter
     jobs = Job.objects.filter(recruiter=recruiter)
@@ -167,7 +167,8 @@ def condidate_register(request):
         )
         user.set_password(password)
         user.save()
-        return redirect('/candidate_dashboard/')
+        login(request,user)
+        return redirect('/condidate_dashboard/')
     return render(request,'condidate_register.html')
 def condidate_login(request):
     if request.method=="POST":
@@ -191,16 +192,28 @@ def condidate_dashboard(request):
     if request.user.is_authenticated:
         queryset=Candidate.objects.filter(user=request.user).first()
     job=Job.objects.all()
+    query=request.GET.get('search')
+    category=request.GET.get('category')
+    if query:
+        job=job.filter(
+            Q(job_position__icontains=query) |
+            Q(job_location__icontains=query)
+        )
+    if category:
+        job=job.filter(job_category__iexact=category)
     return render(request,'candidate.html',{'job':job,'tilu':queryset})
 
 def home_dashboard(request):
     job=Job.objects.all()
     query = request.GET.get('search')
+    category=request.GET.get('category')
     if query:
         job = job.filter(
             Q(job_position__icontains=query) |
             Q(job_location__icontains=query)
         )
+    if category:
+        job=job.filter(job_category__iexact=category)
     pihu=Recruiter.objects.all()
     return render(request,'home_dashboard.html',{'job':job,'pihu':pihu})
 @login_required(login_url='/condidate_login/')
@@ -247,6 +260,5 @@ def candidate_update_profile(request,id):
         queryset.save()
         return redirect("/show_candidate_profile/")
     return render(request, 'candidate_profile_update.html', {'candidate': queryset})
-def application(request):
-    job=job.filter
+def application(request,id):
     return render(request,'application.html')
